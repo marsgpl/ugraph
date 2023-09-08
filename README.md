@@ -1,6 +1,6 @@
 # UGraph - Universal Graph
 
-Graph editor UI
+Graph editor
 
 ## Features
 
