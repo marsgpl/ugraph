@@ -1,0 +1,22 @@
+{
+  "name": "Universal Graph",
+  "short_name": "UGraph",
+  "description": "Graph Tree Editor",
+  "background_color": "#f4f4f4",
+  "theme_color": "#f4f4f4",
+  "display": "standalone",
+  "orientation": "portrait",
+  "lang": "en",
+  "id": "0.0.1",
+  "start_url": ".",
+  "icons": [
+    {
+      "src": "apple-touch-icon.png",
+      "type": "image/png",
+      "sizes": "180x180"
+    }
+  ],
+  "categories": [
+    "graph tree editor"
+  ]
+}
