@@ -1,0 +1,38 @@
+.Table {
+    border: 1px solid #ddd;
+    overflow: hidden;
+    border-radius: 4px;
+}
+
+.Cell {
+    min-width: 48px;
+    height: 48px;
+    line-height: 48px;
+}
+
+.Cell + .Cell {
+    border-left: 1px solid #ddd;
+}
+
+.CellText {
+    padding: 0 12px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+}
+
+.Row {
+    display: flex;
+}
+
+.Row + .Row {
+    border-top: 1px solid #ddd;
+}
+
+.RowHeader {
+    background: #eee;
+}
+
+.RowSelected {
+    background: rgba(144, 103, 235, 0.2);
+}

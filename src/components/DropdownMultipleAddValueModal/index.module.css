@@ -1,0 +1,11 @@
+.Table {
+    margin: 0 10px 10px;
+}
+
+.Cell {
+    padding: 0 12px;
+    cursor: pointer;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+}

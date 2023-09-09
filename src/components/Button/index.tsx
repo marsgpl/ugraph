@@ -1,63 +1,35 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { cn } from 'lib/cn'
 import s from './index.module.css'
 
-export type ButtonBg = 'primary' | 'white' | 'trans'
-export type ButtonSize = 'l' | 'm' | 's'
-
 export interface ButtonProps {
-    text?: string
-    type?: React.ButtonHTMLAttributes<HTMLButtonElement>['type']
+    label?: string
+    icon?: ReactNode
     onClick?: React.MouseEventHandler<HTMLButtonElement>
     className?: string
-    bg?: ButtonBg
-    textColor?: string
-    wide?: boolean
-    size?: ButtonSize
-}
-
-function getBgClass(bg?: ButtonBg): string {
-    switch (bg) {
-        case 'white': return s.BgWhite
-        case 'trans': return s.BgTrans
-        default: return s.BgPrimary
-    }
-}
-
-function getSizeClass(size?: ButtonSize): string {
-    switch (size) {
-        case 'l': return s.SizeL
-        case 's': return s.SizeS
-        default: return s.SizeM
-    }
+    noBg?: boolean
 }
 
 export function Button({
-    text,
-    type,
+    label,
+    icon,
     onClick,
     className,
-    bg,
-    textColor,
-    wide,
-    size,
+    noBg,
 }: ButtonProps) {
+    const content = icon || label
+
     return (
         <button
-            type={type || 'button'}
             onClick={onClick}
             className={cn(
-                s.Root,
-                wide && s.Wide,
-                getBgClass(bg),
-                getSizeClass(size),
+                s.Button,
+                !icon && !noBg && s.WithBg,
+                icon && s.WithIcon,
                 className,
             )}
-            style={{
-                color: textColor,
-            }}
         >
-            {text || ''}
+            {content}
         </button>
     )
 }

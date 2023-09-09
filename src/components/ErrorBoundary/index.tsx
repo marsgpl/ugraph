@@ -43,7 +43,7 @@ export class ErrorBoundary extends React.Component<Props, State> {
 
                 <Button
                     className={s.Btn}
-                    text="Reset"
+                    label="Reset"
                     onClick={() => this.resetError()}
                 />
             </div>

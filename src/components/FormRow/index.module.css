@@ -1,0 +1,11 @@
+.Row {
+    display: block;
+}
+
+.Row + .Row {
+    margin-top: 20px;
+}
+
+.Label {
+    margin: 0 2px 5px;
+}

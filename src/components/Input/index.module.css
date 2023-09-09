@@ -1,0 +1,26 @@
+.Textarea,
+.Input {
+    display: block;
+    background: rgba(0, 0, 0, 0.03);
+    line-height: 24px;
+    padding: 12px 10px 11px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #ccc;
+    border-radius: 4px 4px 0 0;
+    width: 100%;
+    user-select: text;
+    cursor: text;
+}
+
+.Input {
+    height: 48px;
+}
+
+.Textarea:focus,
+.Input:focus {
+    border-color: var(--color-primary);
+}
+
+.ReadOnly {
+    background: rgba(255, 255, 255, 0);
+}

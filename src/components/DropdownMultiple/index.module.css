@@ -1,0 +1,49 @@
+.Container {
+    background: rgba(0, 0, 0, 0.03);
+    min-height: 48px;
+    padding: 0 8px 7px 0;
+    border-bottom: 1px solid #ccc;
+    border-radius: 4px 4px 0 0;
+    box-sizing: border-box;
+    position: relative;
+    font-size: 0;
+}
+
+.ContainerCanAdd {
+    padding-right: 48px;
+}
+
+.Values {
+    overflow: hidden;
+}
+
+.Value {
+    display: inline-block;
+    position: relative;
+    height: 32px;
+    background: var(--color-primary);
+    color: var(--text-color-primary);
+    border-radius: 4px;
+    box-sizing: border-box;
+    padding: 0 32px 0 8px;
+    line-height: 32px;
+    max-width: calc(50% - 8px);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    margin: 8px 0 0 8px;
+    font-size: 16px;
+}
+
+.ValueBad {
+    background: #f00;
+}
+
+.Add,
+.Del {
+    cursor: pointer;
+    z-index: 1;
+    position: absolute;
+    top: 0;
+    right: 0;
+}

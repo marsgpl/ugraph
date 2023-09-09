@@ -1,0 +1,64 @@
+.Shadow {
+    position: fixed;
+    background: rgba(0, 0, 0, .4);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    min-width: 280px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    overscroll-behavior: none;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.Center {
+    display: flex;
+    min-width: 100%;
+    min-height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.Content {
+    background: #fff;
+    border-radius: 3px;
+    overflow: hidden;
+    min-width: 300px;
+    max-width: 790px;
+}
+
+.Head {
+    display: flex;
+    height: 64px;
+}
+
+.HeadIcon {
+    width: 64px;
+    min-width: 64px;
+    height: 100%;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+}
+
+.HeadTitle {
+    flex-grow: 1;
+    line-height: 64px;
+    padding: 0 20px;
+    box-sizing: border-box;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.Text {
+    padding: 15px 25px 40px;
+    box-sizing: border-box;
+    text-align: center;
+    user-select: text;
+    word-wrap: break-word;
+}

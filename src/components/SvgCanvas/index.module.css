@@ -1,0 +1,16 @@
+.Canvas {
+    overflow: hidden;
+}
+
+.Circle {
+    cursor: pointer;
+    fill: var(--color-primary);
+}
+
+.Circle:hover {
+    fill: var(--color-primary-hover);
+}
+
+.Label {
+    fill: #444;
+}
