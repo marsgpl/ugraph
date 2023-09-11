@@ -5,7 +5,12 @@
 .Cell {
     padding: 0 12px;
     cursor: pointer;
+    white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     box-sizing: border-box;
+}
+
+.Search {
+    padding: 0 10px 10px;
 }

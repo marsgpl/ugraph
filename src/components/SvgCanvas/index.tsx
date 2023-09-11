@@ -20,6 +20,8 @@ export function SvgCanvas({
     const { width, height } = useWH()
     const { openModal, closeModal } = useModal()
 
+    const dragRef = React.useRef<SVGGElement>(null)
+
     const linesRef = React.useRef<{
         from: Map<string, SVGLineElement[]>
         to: Map<string, SVGLineElement[]>
@@ -75,6 +77,9 @@ export function SvgCanvas({
 
             if (!g) { return }
 
+            event.preventDefault()
+            event.stopPropagation()
+
             const {
                 clientX: x1,
                 clientY: y1,
@@ -117,10 +122,10 @@ export function SvgCanvas({
             }
 
             const onMouseUp = () => {
-                save(node)
-
                 window.removeEventListener('mousemove', onMouseMove)
                 window.removeEventListener('mouseup', onMouseUp)
+
+                save(node)
 
                 if (!dx && !dy) {
                     openEditGraphNodeModal(node)
@@ -200,7 +205,59 @@ export function SvgCanvas({
         })
 
         return svgNodes
-    }, [nodes])
+    }, [
+        nodes,
+        width,
+        height,
+    ])
+
+    const onMouseDown = (event: React.MouseEvent<SVGGElement>) => {
+        const svg = event.target as SVGElement
+        const g = dragRef.current
+
+        if (!g) { return }
+        if (!svg) { return }
+        if (svg.tagName.toLowerCase() !== 'svg') { return }
+
+        event.preventDefault()
+        event.stopPropagation()
+
+        const {
+            clientX: x1,
+            clientY: y1,
+        } = event
+
+        let dx = 0
+        let dy = 0
+
+        const onMouseMove = (event: MouseEvent) => {
+            const {
+                clientX: x2,
+                clientY: y2,
+            } = event
+
+            dx = x2 - x1
+            dy = y2 - y1
+
+            g.setAttribute('transform', `translate(${dx}, ${dy})`)
+        }
+
+        const onMouseUp = () => {
+            window.removeEventListener('mousemove', onMouseMove)
+            window.removeEventListener('mouseup', onMouseUp)
+
+            const newNodes = new Map(nodes)
+            newNodes.forEach(node => {
+                node.x += dx
+                node.y += dy
+            })
+            setNodes(newNodes)
+            g.setAttribute('transform', `translate(0, 0)`)
+        }
+
+        window.addEventListener('mousemove', onMouseMove)
+        window.addEventListener('mouseup', onMouseUp)
+    }
 
     return (
         <svg
@@ -210,8 +267,11 @@ export function SvgCanvas({
                 width,
                 height,
             }}
+            onMouseDown={onMouseDown}
         >
-            {svgNodes}
+            <g ref={dragRef}>
+                {svgNodes}
+            </g>
         </svg>
     )
 }

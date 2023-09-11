@@ -17,6 +17,8 @@ export interface TableProps {
     rows: TableRow[]
     className?: string
     noHeader?: boolean
+    maxHeight?: number
+    searchable?: boolean
 }
 
 export function Table({
@@ -24,9 +26,12 @@ export function Table({
     rows,
     className,
     noHeader,
+    maxHeight,
 }: TableProps) {
     return (
-        <div className={cn(s.Table, className)}>
+        <div className={cn(s.Table, className)} style={{
+            maxHeight,
+        }}>
             {!noHeader && (
                 <div className={cn(s.Row, s.RowHeader)}>
                     {cols.map((col, colIndex) => (
@@ -60,6 +65,12 @@ export function Table({
                     }))}
                 </div>
             ))}
+
+            {rows.length < 1 && (
+                <div className={s.Empty}>
+                    No rows
+                </div>
+            )}
         </div>
     )
 }

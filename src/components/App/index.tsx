@@ -11,21 +11,6 @@ export function App() {
 
     const [nodes, setNodes] = React.useState(loadNodes())
 
-    const onNodeAdd = React.useCallback((node: GraphNode) => {
-        const { id } = node
-
-        if (nodes.has(id)) {
-            return openModal({
-                title: 'Error',
-                text: `Node with id ${id} already exists`,
-            })
-        }
-
-        const newNodes = new Map(nodes)
-        newNodes.set(id, node)
-        setNodes(newNodes)
-    }, [nodes])
-
     useEffectNoInitial(() => saveNodes(nodes), [nodes])
 
     return <>
@@ -39,7 +24,8 @@ export function App() {
             />
 
             <ControlButtons
-                onGraphNodeAdd={onNodeAdd}
+                nodes={nodes}
+                setNodes={setNodes}
             />
 
             {modals.map(props => <Modal key={props.id} {...props} />)}

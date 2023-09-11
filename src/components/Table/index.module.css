@@ -2,6 +2,9 @@
     border: 1px solid #ddd;
     overflow: hidden;
     border-radius: 4px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    box-sizing: border-box;
 }
 
 .Cell {
@@ -9,6 +12,7 @@
     height: 48px;
     line-height: 48px;
     box-sizing: border-box;
+    overflow: hidden;
 }
 
 .Cell + .Cell {
@@ -19,6 +23,7 @@
     padding: 0 12px;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .Row {
@@ -36,4 +41,13 @@
 
 .RowSelected {
     background: rgba(144, 103, 235, 0.2);
+}
+
+.Empty {
+    background: rgba(0, 0, 0, 0.03);
+    padding: 0 20px;
+    height: 48px;
+    line-height: 48px;
+    text-align: center;
+    color: #888;
 }

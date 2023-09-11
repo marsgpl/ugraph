@@ -5,6 +5,7 @@ import { ModalActions } from 'components/ModalActions'
 import { Table } from 'components/Table'
 import { DropdownOption } from 'components/DropdownMultiple'
 import s from './index.module.css'
+import { Input } from 'components/Input'
 
 export interface DropdownMultipleAddValueModal {
     options: DropdownOption[]
@@ -18,21 +19,20 @@ export function DropdownMultipleAddValueModal({
     onClose,
 }: DropdownMultipleAddValueModal) {
     const [selection, setSelection] = React.useState(new Set<string>())
+    const [filter, setFilter] = React.useState('')
 
     const add = () => {
         onAdd(selection)
         onClose()
     }
 
-    return <>
-        <Table
-            className={s.Table}
-            noHeader
-            cols={[
-                { width: 48 },
-                { width: '100%' },
-            ]}
-            rows={options.map(({ title, value }) => {
+    const rows = React.useMemo(() => {
+        const filterNormalized = filter.trim().toLowerCase()
+
+        return options
+            .filter(({ title, value }) =>
+                title.trim().toLowerCase().includes(filterNormalized) || selection.has(value))
+            .map(({ title, value }) => {
                 const selected = selection.has(value)
 
                 const onChangeSelect = (selected: boolean) => {
@@ -70,7 +70,28 @@ export function DropdownMultipleAddValueModal({
                         </div>,
                     ],
                 }
-            })}
+            })
+    }, [filter, options, selection])
+
+    return <>
+        <div className={s.Search}>
+            <Input
+                value={filter}
+                onChange={setFilter}
+                placeholder="Filter"
+                autoFocus
+            />
+        </div>
+
+        <Table
+            className={s.Table}
+            noHeader
+            maxHeight={295}
+            cols={[
+                { width: 48 },
+                { width: '100%' },
+            ]}
+            rows={rows}
         />
 
         <ModalActions>
