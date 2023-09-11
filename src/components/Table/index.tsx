@@ -4,6 +4,7 @@ import { ReactNode } from 'react'
 
 export interface TableCol {
     label?: string
+    width?: number | string
 }
 
 export interface TableRow {
@@ -12,22 +13,27 @@ export interface TableRow {
 }
 
 export interface TableProps {
-    cols?: TableCol[]
+    cols: TableCol[]
     rows: TableRow[]
     className?: string
+    noHeader?: boolean
 }
 
 export function Table({
     cols,
     rows,
     className,
+    noHeader,
 }: TableProps) {
     return (
         <div className={cn(s.Table, className)}>
-            {!!cols && (
+            {!noHeader && (
                 <div className={cn(s.Row, s.RowHeader)}>
                     {cols.map((col, colIndex) => (
-                        <div key={colIndex} className={cn(s.Cell, s.CellText)}>
+                        <div
+                            key={colIndex}
+                            className={cn(s.Cell, s.CellText)}
+                        >
                             {col.label}
                         </div>
                     ))}
@@ -36,11 +42,18 @@ export function Table({
 
             {rows.map((row, rowIndex) => (
                 <div key={rowIndex} className={cn(s.Row, row.selected && s.RowSelected)}>
-                    {row.values.map(((value, index) => {
+                    {cols.map(((col, index) => {
+                        const value = row.values[index]
                         const isString = typeof value === 'string'
 
                         return (
-                            <div key={index} className={cn(s.Cell, isString && s.CellText)}>
+                            <div
+                                key={index}
+                                className={cn(s.Cell, isString && s.CellText)}
+                                style={{
+                                    width: col.width,
+                                }}
+                            >
                                 {value}
                             </div>
                         )

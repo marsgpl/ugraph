@@ -1,94 +1,135 @@
+import React from 'react'
 import { cn } from 'lib/cn'
 import { Icon, IconType } from 'components/Icon'
-import { DropdownOption } from 'components/Dropdown'
 import { useModal } from 'hooks/useModal'
 import { DropdownMultipleAddValueModal } from 'components/DropdownMultipleAddValueModal'
 import s from './index.module.css'
 
-export interface DropdownProps {
-    values?: string[]
-    onChange: (values: string[]) => void
+export interface DropdownOption {
+    title: string
+    value: string
+    broken?: boolean
+}
+
+export interface DropdownMultipleProps {
+    selection: Set<string>
     options: DropdownOption[]
+    onChange?: (selection: Set<string>) => void
+    readOnly?: boolean
     className?: string
 }
 
 export function DropdownMultiple({
-    values,
-    onChange,
+    selection,
     options,
+    onChange,
+    readOnly,
     className,
-}: DropdownProps) {
+}: DropdownMultipleProps) {
     const { openModal, closeModal } = useModal()
 
-    const names = new Map<string, string>()
-    const added = new Set<string>()
-    const toAdd: string[] = []
-    const existing = new Set<string>()
-    const bad = new Set<string>()
+    const {
+        selectedOptions,
+        addOptions,
+    } = React.useMemo(() => {
+        const found = new Set<string>()
 
-    options.forEach(({ value, title }) => {
-        title && names.set(value, title)
-        existing.add(value)
-    })
+        const selectedOptions: DropdownOption[] = []
+        const addOptions: DropdownOption[] = []
 
-    values?.forEach(value => {
-        added.add(value)
-        !existing.has(value) && bad.add(value)
-    })
+        options.forEach(option => {
+            const { value } = option
 
-    options.forEach(({ value }) => {
-        !added.has(value) && toAdd.push(value)
-    })
+            if (selection.has(value)) {
+                found.add(value)
+                selectedOptions.push(option)
+            } else {
+                addOptions.push(option)
+            }
+        })
+
+        selection.forEach(value => {
+            if (!found.has(value)) {
+                selectedOptions.push({
+                    title: '?',
+                    value,
+                    broken: true,
+                })
+            }
+        })
+
+        return {
+            selectedOptions,
+            addOptions,
+        }
+    }, [
+        selection,
+        options,
+    ])
+
+    const canEdit = !readOnly && !!onChange
+    const canAdd = addOptions.length > 0 && canEdit
+
+    const onDel = (value: string) => {
+        if (!canEdit) { return }
+
+        const newSelection = new Set(selection)
+        newSelection.delete(value)
+        onChange(newSelection)
+    }
 
     const showAdd = () => {
+        if (!canAdd) { return }
+
         const modalId = 'dropdown-multiple-add'
 
         const onClose = () => closeModal(modalId)
 
-        const onAdd = (moreValues: string[]) => onChange([
-            ...values || [],
-            ...moreValues,
-        ])
+        const onAdd = (moreSelection: Set<string>) => {
+            const newSelection = new Set([
+                ...selection,
+                ...moreSelection,
+            ])
+
+            onChange(newSelection)
+        }
 
         openModal({
             id: modalId,
             title: 'Add value',
             body: <DropdownMultipleAddValueModal
+                options={addOptions}
                 onAdd={onAdd}
                 onClose={onClose}
-                values={toAdd}
-                names={names}
             />,
             minWidth: 400,
             maxWidth: 400,
         })
     }
 
-    const canAdd = toAdd.length > 0
-
     return (
         <div className={cn(s.Container, canAdd && s.ContainerCanAdd, className)}>
             <div className={s.Values}>
-                {values?.map(value => {
-                    const isBad = bad.has(value)
+                {selectedOptions.map(({ title, value, broken }) => (
+                    <div
+                        key={value}
+                        className={cn(
+                            s.Value,
+                            broken && s.ValueBad,
+                            canEdit && s.ValueCanEdit,
+                        )}
+                    >
+                        {title}
 
-                    return (
-                        <div
-                            key={value}
-                            className={cn(s.Value, isBad && s.ValueBad)}
-                        >
-                            {isBad ? '?' : (names.get(value) || value)}
-
-                            <Icon
-                                type={IconType.Close}
-                                className={s.Del}
-                                size={32}
-                                color="#fff"
-                                onClick={() => onChange(values.filter(v => v !== value))}
-                            />
-                        </div>
-                    )
-                })}
+                        {canEdit && <Icon
+                            type={IconType.Close}
+                            className={s.Del}
+                            size={32}
+                            color="#fff"
+                            onClick={() => onDel(value)}
+                        />}
+                    </div>
+                ))}
             </div>
 
             {canAdd && (

@@ -13,14 +13,19 @@
     width: 20px;
     height: 20px;
     border: 1px solid #ccc;
+    box-sizing: border-box;
     border-radius: 2px;
+}
+
+.BoxChecked::before {
+    border-color: var(--color-primary);
 }
 
 .BoxChecked::after {
     content: '';
     position: absolute;
-    top: 19px;
-    left: 19px;
+    top: 18px;
+    left: 18px;
     width: 12px;
     height: 12px;
     background: var(--color-primary);

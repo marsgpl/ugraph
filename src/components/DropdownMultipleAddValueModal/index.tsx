@@ -3,32 +3,36 @@ import { Button } from 'components/Button'
 import { CheckBox } from 'components/CheckBox'
 import { ModalActions } from 'components/ModalActions'
 import { Table } from 'components/Table'
+import { DropdownOption } from 'components/DropdownMultiple'
 import s from './index.module.css'
 
 export interface DropdownMultipleAddValueModal {
-    onAdd: (values: string[]) => void
+    options: DropdownOption[]
+    onAdd: (selection: Set<string>) => void
     onClose: () => void
-    values: string[]
-    names: Map<string, string | undefined>
 }
 
 export function DropdownMultipleAddValueModal({
+    options,
     onAdd,
     onClose,
-    values,
-    names,
 }: DropdownMultipleAddValueModal) {
     const [selection, setSelection] = React.useState(new Set<string>())
 
     const add = () => {
-        onAdd(Array.from(selection))
+        onAdd(selection)
         onClose()
     }
 
     return <>
         <Table
             className={s.Table}
-            rows={values.map(value => {
+            noHeader
+            cols={[
+                { width: 48 },
+                { width: '100%' },
+            ]}
+            rows={options.map(({ title, value }) => {
                 const selected = selection.has(value)
 
                 const onChangeSelect = (selected: boolean) => {
@@ -62,7 +66,7 @@ export function DropdownMultipleAddValueModal({
                             className={s.Cell}
                             onClick={onToggleSelect}
                         >
-                            {names.get(value) || value}
+                            {title || value}
                         </div>,
                     ],
                 }

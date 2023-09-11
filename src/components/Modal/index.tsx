@@ -63,8 +63,8 @@ export function Modal({
                         <div className={s.HeadTitle}>{title}</div>
 
                         <Button
-                            className={s.HeadIcon}
-                            icon={<Icon type={IconType.Close} />}
+                            className={s.HeadButton}
+                            icon={<Icon type={IconType.Close} size={44} />}
                             onClick={close}
                         />
                     </div>

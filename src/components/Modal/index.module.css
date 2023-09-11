@@ -44,6 +44,13 @@
     justify-content: center;
 }
 
+.HeadButton {
+    min-width: 44px;
+    width: 44px;
+    height: 44px;
+    margin: 10px;
+}
+
 .HeadTitle {
     flex-grow: 1;
     line-height: 64px;

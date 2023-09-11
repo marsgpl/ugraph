@@ -8,6 +8,7 @@
     min-width: 48px;
     height: 48px;
     line-height: 48px;
+    box-sizing: border-box;
 }
 
 .Cell + .Cell {
@@ -18,11 +19,11 @@
     padding: 0 12px;
     overflow: hidden;
     text-overflow: ellipsis;
-    box-sizing: border-box;
 }
 
 .Row {
     display: flex;
+    box-sizing: border-box;
 }
 
 .Row + .Row {

@@ -14,3 +14,8 @@
 .Label {
     fill: #444;
 }
+
+.Line {
+    stroke-width: 1;
+    stroke: #888;
+}
